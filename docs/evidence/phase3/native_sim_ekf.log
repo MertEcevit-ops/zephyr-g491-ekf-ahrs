@@ -1,0 +1,31 @@
+SUITE PASS - 100.00% [ekf_core]: pass = 19, fail = 0, skip = 0, total = 19 duration = 0.000 seconds
+ - PASS - [ekf_core.test_accel_update_skipped_above_hard_gate] duration = 0.000 seconds
+ - PASS - [ekf_core.test_align_recovers_reference_attitude] duration = 0.000 seconds
+ - PASS - [ekf_core.test_constant_linear_acceleration_is_rejected] duration = 0.000 seconds
+ - PASS - [ekf_core.test_corrupted_covariance_drops_filter_to_aligning] duration = 0.000 seconds
+ - PASS - [ekf_core.test_dynamic_motion_is_tracked] duration = 0.000 seconds
+ - PASS - [ekf_core.test_gyro_saturation_recovers_after_fast_roll] duration = 0.000 seconds
+ - PASS - [ekf_core.test_heading_update_leaks_little_into_tilt] duration = 0.000 seconds
+ - PASS - [ekf_core.test_init_and_align_reject_bad_arguments] duration = 0.000 seconds
+ - PASS - [ekf_core.test_init_projects_covariance_onto_tangent_space] duration = 0.000 seconds
+ - PASS - [ekf_core.test_invalid_input_is_rejected_without_touching_state] duration = 0.000 seconds
+ - PASS - [ekf_core.test_mag_update_gates] duration = 0.000 seconds
+ - PASS - [ekf_core.test_permanent_magnetic_disturbance_is_adopted_after_distrust_period] duration = 0.000 seconds
+ - PASS - [ekf_core.test_persistent_accel_rejection_resets_tilt] duration = 0.000 seconds
+ - PASS - [ekf_core.test_predict_integrates_constant_yaw_rate] duration = 0.000 seconds
+ - PASS - [ekf_core.test_predict_keeps_quaternion_and_covariance_invariants] duration = 0.000 seconds
+ - PASS - [ekf_core.test_shaking_acceleration_stays_bounded] duration = 0.000 seconds
+ - PASS - [ekf_core.test_short_magnetic_disturbance_is_ignored] duration = 0.000 seconds
+ - PASS - [ekf_core.test_static_run_converges_attitude_and_bias] duration = 0.000 seconds
+ - PASS - [ekf_core.test_wrong_initial_heading_is_recovered_by_yaw_reset] duration = 0.000 seconds
+SUITE PASS - 100.00% [ekf_math]: pass = 10, fail = 0, skip = 0, total = 10 duration = 0.000 seconds
+ - PASS - [ekf_math.test_euler_at_gimbal_lock_stays_finite] duration = 0.000 seconds
+ - PASS - [ekf_math.test_euler_round_trip_grid] duration = 0.000 seconds
+ - PASS - [ekf_math.test_euler_to_quat_and_rotation_match_reference] duration = 0.000 seconds
+ - PASS - [ekf_math.test_jacobians_match_reference_and_finite_differences] duration = 0.000 seconds
+ - PASS - [ekf_math.test_omega_and_xi_identities] duration = 0.000 seconds
+ - PASS - [ekf_math.test_quat_multiply_identities] duration = 0.000 seconds
+ - PASS - [ekf_math.test_quat_normalize_scales_and_rejects_zero] duration = 0.000 seconds
+ - PASS - [ekf_math.test_rotation_matrix_matches_quaternion_sandwich] duration = 0.000 seconds
+ - PASS - [ekf_math.test_rotation_vector_exponential] duration = 0.000 seconds
+ - PASS - [ekf_math.test_wrap_pi_range] duration = 0.000 seconds

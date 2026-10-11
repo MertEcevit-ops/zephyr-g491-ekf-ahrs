@@ -1,0 +1,15 @@
+SUITE PASS - 100.00% [axis_map]: pass = 3, fail = 0, skip = 0, total = 3 duration = 0.000 seconds
+ - PASS - [axis_map.test_determinants_reflect_handedness] duration = 0.000 seconds
+ - PASS - [axis_map.test_ism_map_turns_sensor_frame_into_frd] duration = 0.000 seconds
+ - PASS - [axis_map.test_mmc_map_keeps_z_and_flips_y] duration = 0.000 seconds
+SUITE PASS - 100.00% [mag_cal]: pass = 2, fail = 0, skip = 0, total = 2 duration = 0.000 seconds
+ - PASS - [mag_cal.test_mag_cal_applies_off_diagonal_terms] duration = 0.000 seconds
+ - PASS - [mag_cal.test_mag_cal_removes_hard_iron_then_scales] duration = 0.000 seconds
+SUITE PASS - 100.00% [mmc_decode]: pass = 3, fail = 0, skip = 0, total = 3 duration = 0.000 seconds
+ - PASS - [mmc_decode.test_low_bits_come_from_the_shared_register] duration = 0.000 seconds
+ - PASS - [mmc_decode.test_rail_values_are_reported_as_saturation] duration = 0.000 seconds
+ - PASS - [mmc_decode.test_reference_burst_decodes_to_signed_counts_and_microgauss] duration = 0.000 seconds
+SUITE PASS - 100.00% [sensor_cal]: pass = 3, fail = 0, skip = 0, total = 3 duration = 0.000 seconds
+ - PASS - [sensor_cal.test_accel_cal_removes_offset_then_scales] duration = 0.000 seconds
+ - PASS - [sensor_cal.test_interval_outside_valid_range_is_rejected] duration = 0.000 seconds
+ - PASS - [sensor_cal.test_interval_survives_counter_wrap] duration = 0.000 seconds

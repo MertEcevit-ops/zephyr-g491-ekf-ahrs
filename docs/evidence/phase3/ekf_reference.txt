@@ -1,0 +1,45 @@
+PASS  V1 q: max deviation 4.5e-08
+      [ 0.8616424  0.2996729 -0.0574224  0.4055504]
+PASS  V2 R: max deviation 4.6e-08
+      [[ 0.664463  -0.7332948  0.1441097]
+       [ 0.664463   0.4914501 -0.5629971]
+       [ 0.3420201  0.4698463  0.8137977]]
+PASS  V3 f_b: max deviation 3.9e-08
+      [-3.3540718 -4.6076183 -7.980629 ]
+PASS  V3 h_a: max deviation 4.3e-08
+      [-0.3420201 -0.4698463 -0.8137977]
+PASS  V4 m_b: max deviation 2.0e-08
+      [0.3029238 0.0046148 0.3615465]
+PASS  V4 y_psi: max deviation 3.3e-16
+      3.330669073875471e-16
+PASS  V5 euler [deg]: max deviation 7.1e-15
+      [ 30. -20.  45.]
+PASS  V6 H_a: max deviation 4.2e-08
+      [[-0.1148449 -0.8111009  1.7232849 -0.5993457]
+       [-0.5993457 -1.7232849 -0.8111009  0.1148449]
+       [-1.7232849  0.5993457 -0.1148449 -0.8111009]]
+PASS  V6 H_psi: max deviation 3.7e-08
+      [ 0.6103431 -0.0864193  0.2781614  2.5174362]
+PASS  V7 dq: max deviation 5.0e-08
+      [ 0.9999983  0.0005    -0.001      0.0015   ]
+PASS  V7 q*dq: max deviation 4.6e-08
+      [ 0.8608253  0.3004226 -0.0585307  0.4065712]
+PASS  V8 yaw [rad]: max deviation 4.4e-16
+      1.0000000000000004
+PASS  V9 f_b: max deviation 0.0e+00
+      [ 0.      -0.      -9.80665]
+PASS  V9 m_b: max deviation 0.0e+00
+      [ 1. -2.  3.]
+PASS  V9 det ism_to_body: max deviation 0.0e+00
+      1.0
+PASS  V9 det mmc_to_body: max deviation 0.0e+00
+      -1.0
+PASS  T-EKF-06 static convergence: err [0.0073 0.0003 0.0007] deg, bias err 1.17e-05 rad/s, max P_bb 5.34e-08
+PASS  T-EKF-07 dynamic tracking: rms [0.006  0.0053 0.0291] deg, max [0.0146 0.0115 0.0732] deg, rejected 0/3119
+PASS  T-EKF-08a 0.5 g step: roll/pitch dev [0.0079 0.0106] deg, acc_rejected 208, tilt_resets 0
+PASS  T-EKF-08b shaking: roll/pitch dev [0.7236 1.1351] deg, acc_rejected 359, tilt_resets 0
+PASS  T-EKF-09a magnetic pulse: yaw dev 0.091 deg, mag_rejected 520, mag_gated 0
+PASS  T-EKF-09b permanent disturbance: yaw_resets 1, reset at 40.0 s
+PASS  T-EKF-10 wrong initial heading: yaw err at 5 s 0.035 deg, yaw_resets 1, converged at 10 s True
+PASS  T-EKF-11 heading leak into tilt: moved roll/pitch/yaw [-0.2099  0.0014  0.8108] deg
+PASS  T-EKF-12 gyro saturation: err [0.091  0.0091 0.4376] deg, gyro_sat 36
