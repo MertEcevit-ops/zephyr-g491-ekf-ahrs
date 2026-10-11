@@ -1,0 +1,14 @@
+common:
+  tags: sensor_hub
+tests:
+  app.sensor_hub.unit:
+    platform_allow:
+      - native_sim/native
+      - native_sim/native/64
+      - mps2/an385
+      - mps3/corstone300/an547
+    integration_platforms:
+      - native_sim/native
+  app.sensor_hub.build.nucleo:
+    platform_allow: nucleo_g491re
+    build_only: true
