@@ -1,0 +1,6 @@
+mainmenu "9-DoF EKF"
+
+# The MMC5983MA driver symbols arrive through the module (zephyr/module.yml).
+rsource "Kconfig.app"
+
+source "Kconfig.zephyr"
