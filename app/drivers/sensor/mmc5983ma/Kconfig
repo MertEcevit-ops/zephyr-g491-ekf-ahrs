@@ -1,0 +1,41 @@
+menuconfig MMC5983MA
+	bool "MEMSIC MMC5983MA magnetometer (SPI)"
+	default y
+	depends on SENSOR
+	depends on DT_HAS_MEMSIC_MMC5983MA_ENABLED
+	select SPI
+
+if MMC5983MA
+
+config MMC5983MA_INIT_PRIORITY
+	int "Init priority"
+	default 92
+	help
+	  Must run after the ISM330DHCX I2C_disable hook
+	  (CONFIG_APP_ISM330_SPI_ONLY_INIT_PRIORITY). See HARDWARE_MAP.md sec. 4.
+
+config MMC5983MA_BANDWIDTH
+	int "BW[1:0] decimation setting"
+	range 0 3
+	default 1
+	help
+	  0: 8 ms, 1: 4 ms, 2: 2 ms, 3: 0.5 ms per measurement.
+
+config MMC5983MA_PERIODIC_SET_INTERVAL
+	int "Measurements between SET pulses"
+	range 1 2000
+	default 100
+
+config MMC5983MA_SR_SETTLE_US
+	int "Wait after SET/RESET before measuring (us)"
+	default 1000
+
+config MMC5983MA_MEAS_TIMEOUT_MS
+	int "Polling timeout for a single measurement (ms)"
+	default 20
+
+config MMC5983MA_INT_DIAG
+	bool "Drive INT on measurement done (logic analyzer aid)"
+	select GPIO
+
+endif # MMC5983MA

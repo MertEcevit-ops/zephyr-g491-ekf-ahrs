@@ -1,0 +1,39 @@
+/*
+ * SparkFun 9DoF (ISM330DHCX + MMC5983MA) on SPI1.
+ * Pin decisions live in HARDWARE_MAP.md; keep both in sync.
+ */
+#include <zephyr/dt-bindings/sensor/ism330dhcx.h>
+
+/* PA5 is SPI1_SCK here. The board DTS also claims it for TIM2_CH1 (pwm2). */
+&pwm2 {
+	status = "disabled";
+};
+
+&spi1 {
+	pinctrl-0 = <&spi1_sck_pa5 &spi1_miso_pa6 &spi1_mosi_pa7>;
+	pinctrl-names = "default";
+	cs-gpios = <&gpiob 6 GPIO_ACTIVE_LOW>,	/* reg 0: D10 -> ACS */
+		   <&gpioc 7 GPIO_ACTIVE_LOW>;	/* reg 1: D9  -> MCS */
+	status = "okay";
+
+	ism330dhcx: ism330dhcx@0 {
+		compatible = "st,ism330dhcx";
+		reg = <0>;
+		spi-max-frequency = <10000000>;	/* /32 -> 5.3125 MHz */
+		/* INT1 must never be pulled up (DS13012 sec. 6). */
+		drdy-gpios = <&gpioa 10 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+		int-pin = <1>;
+		accel-odr = <ISM330DHCX_DT_ODR_104Hz>;
+		gyro-odr = <ISM330DHCX_DT_ODR_104Hz>;
+		accel-range = <4>;
+		gyro-range = <500>;
+	};
+
+	mmc5983ma: mmc5983ma@1 {
+		compatible = "memsic,mmc5983ma";
+		reg = <1>;
+		spi-max-frequency = <10000000>;
+		/* Hi-Z until INT_meas_done_en is set; only used by CONFIG_MMC5983MA_INT_DIAG. */
+		int-gpios = <&gpioa 8 (GPIO_ACTIVE_HIGH | GPIO_PULL_DOWN)>;
+	};
+};

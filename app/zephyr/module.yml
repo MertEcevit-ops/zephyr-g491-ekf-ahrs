@@ -1,0 +1,6 @@
+name: imu-ekf
+build:
+  cmake: drivers
+  kconfig: drivers/Kconfig
+  settings:
+    dts_root: .
