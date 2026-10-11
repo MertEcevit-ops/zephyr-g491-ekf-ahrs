@@ -1,0 +1,12 @@
+config RAW_DATA_OFFSET_ONLY
+	bool "Run only the bridge offset repeatability test"
+	help
+	  For the informational T-RAW-05 rerun with a shorter SET/RESET settle time.
+
+config RAW_DATA_LONG_RUN_S
+	int "Duration of the long-run test T-RAW-08 [s]"
+	default 600
+
+rsource "../../../Kconfig.app"
+
+source "Kconfig.zephyr"

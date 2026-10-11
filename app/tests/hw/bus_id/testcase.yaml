@@ -1,0 +1,13 @@
+common:
+  tags: hw
+  platform_allow: nucleo_g491re
+  harness: ztest
+  timeout: 180
+tests:
+  app.hw.bus_id.raw:
+    extra_configs:
+      - CONFIG_SENSOR=n   # no drivers bound: pure SPI
+  app.hw.bus_id.drivers:
+    extra_configs:
+      - CONFIG_SENSOR=y
+      - CONFIG_ISM330DHCX_TRIGGER_NONE=y

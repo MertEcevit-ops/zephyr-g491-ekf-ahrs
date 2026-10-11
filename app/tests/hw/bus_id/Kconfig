@@ -1,0 +1,3 @@
+rsource "../../../Kconfig.app"
+
+source "Kconfig.zephyr"

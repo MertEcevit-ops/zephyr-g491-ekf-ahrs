@@ -1,0 +1,17 @@
+# Board flat, component side up, X arrow roughly north, at rest, no metal within 30 cm.
+common:
+  tags: hw
+  platform_allow: nucleo_g491re
+  harness: ztest
+tests:
+  app.hw.raw_data.hub:
+    timeout: 900
+  app.hw.raw_data.int_diag:
+    timeout: 60
+    extra_configs:
+      - CONFIG_MMC5983MA_INT_DIAG=y
+  app.hw.raw_data.settle100:
+    timeout: 120
+    extra_configs:
+      - CONFIG_RAW_DATA_OFFSET_ONLY=y
+      - CONFIG_MMC5983MA_SR_SETTLE_US=100
