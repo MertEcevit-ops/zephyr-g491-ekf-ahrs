@@ -1,0 +1,65 @@
+,1118,30,0,0,11760,0,0,0,0,0,0,0,63487,101386,0
+uart:~$ T,11968,107682,1,-928,1100,266,999918,-8122,9579,2399,1809,2536,1118,30,0,0,11767,0,0,0,0,0,0,0,64559,102456,0
+uart:~$ T,11974,107736,1,-928,1101,265,999918,-8116,9589,2394,1809,2536,1118,30,0,0,11773,0,0,0,0,0,0,0,63487,101384,0
+uart:~$ T,11981,107799,1,-928,1102,266,999918,-8119,9594,2398,1809,2536,1118,30,0,0,11780,0,0,0,0,0,0,0,63487,101384,0
+uart:~$ : chip id 0x6b
+*** Booting Zephyr OS build v4.4.0-11132-g8076e9d493af ***
+Running TESTSUITE raw_bridge_offset
+===================================================================
+START - test_00_driver_initialised_with_a_measured_offset
+bridge offset after init [uG]: -14282 179748 67138
+ PASS - test_00_driver_initialised_with_a_measured_offset in 0.005 seconds
+===================================================================
+START - test_05_refreshed_offset_is_repeatable
+axis 0 (settle 1000 us): mean -14565 uG, std 580 uG, spread 2015 uG
+axis 1 (settle 1000 us): mean 182583 uG, std 665 uG, spread 2380 uG
+axis 2 (settle 1000 us): mean 71178 uG, std 744 uG, spread 2319 uG
+ PASS - test_05_refreshed_offset_is_repeatable in 20.167 seconds
+===================================================================
+TESTSUITE raw_bridge_offset succeeded
+Running TESTSUITE raw_stream
+===================================================================
+START - test_accelerometer_reads_gravity_with_frd_sign
+accel A [mm/s^2] mean 193 -163 10160, std 4 5 4
+accel b [mm/s^2] mean 193 163 -10160, std 4 5 4
+ PASS - test_accelerometer_reads_gravity_with_frd_sign in 9.371 seconds
+===================================================================
+START - test_gyroscope_is_quiet_at_rest
+gyro b [urad/s] mean 1619 2272 1223, std 725 596 519
+ PASS - test_gyroscope_is_quiet_at_rest in 9.372 seconds
+===================================================================
+START - test_magnetometer_reads_a_plausible_earth_field
+mag M [uG] mean -77970 390058 442689, std 655 649 1188
+ PASS - test_magnetometer_reads_a_plausible_earth_field in 9.376 seconds
+===================================================================
+START - test_sample_interval_and_tick_time_meet_budget
+dt mean 8995 us, std 0 us; tick p99 <= 280 us, slowest 1415 us, SET ticks 10
+
+    Assertion failed at CMAKE_SOURCE_DIR/src/test_stream.c:226: raw_stream_test_sample_interval_and_tick_time_meet_budget: window.dt_us.mean not within nominal_us +/- 0.02f * nominal_us
+
+ FAIL - test_sample_interval_and_tick_time_meet_budget in 9.393 seconds
+===================================================================
+START - test_zz_long_run_has_no_faults
+long run: 62400 samples, slowest tick 1426 us
+ PASS - test_zz_long_run_has_no_faults in 5.540 seconds
+===================================================================
+TESTSUITE raw_stream failed.
+
+------ TESTSUITE SUMMARY START ------
+
+SUITE PASS - 100.00% [raw_bridge_offset]: pass = 2, fail = 0, skip = 0, total = 2 duration = 20.172 seconds
+ - PASS - [raw_bridge_offset.test_00_driver_initialised_with_a_measured_offset] duration = 0.005 seconds
+ - PASS - [raw_bridge_offset.test_05_refreshed_offset_is_repeatable] duration = 20.167 seconds
+
+SUITE FAIL -  80.00% [raw_stream]: pass = 4, fail = 1, skip = 0, total = 5 duration = 43.052 seconds
+ - PASS - [raw_stream.test_accelerometer_reads_gravity_with_frd_sign] duration = 9.371 seconds
+ - PASS - [raw_stream.test_gyroscope_is_quiet_at_rest] duration = 9.372 seconds
+ - PASS - [raw_stream.test_magnetometer_reads_a_plausible_earth_field] duration = 9.376 seconds
+ - FAIL - [raw_stream.test_sample_interval_and_tick_time_meet_budget] duration = 9.393 seconds
+ - PASS - [raw_stream.test_zz_long_run_has_no_faults] duration = 5.540 seconds
+
+------ TESTSUITE SUMMARY END ------
+
+===================================================================
+RunID: 16cbbce2509ac5cc867c18c7c91b80e4
+PROJECT EXECUTION FAILED

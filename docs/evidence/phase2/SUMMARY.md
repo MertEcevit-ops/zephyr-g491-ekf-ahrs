@@ -48,3 +48,30 @@ olabilir. Kaynağı (ortam alanı mı, çip mi) bu koşudan ayırt edilemez; kar
 uzakta tekrar ölçülmeli. 100 µs bekleme 1000 µs'tan belirgin kötü; `SR_SETTLE_US` kısaltılmamalı.
 
 **3. Zamanlama bütçesi tutuyor ama payı dar.** Sensör thread'i tik süresi p99 ≤ 280 µs (sınır 300).
+
+## İkinci koşu — sensör kartı düz (2026-10-12, commit `7573af6`)
+
+Yalnızca `app.hw.raw_data.hub`, sensör kartı düz ve bileşen yüzü yukarı. 7 test durumundan 6'sı
+geçti. Kanıt: `app.hw.raw_data.hub.flat.log`.
+
+| Test ID | Sonuç | Not |
+|---|---|---|
+| T-RAW-00 | PASS | Init ofseti (−14282, 179748, 67138) µG |
+| T-RAW-01, 02 | PASS | $\bar f_A$ = (0.193, −0.163, 10.160) m/s², std (4, 5, 4) mm/s²; $\bar f_{b,z}$ = −10.160 |
+| T-RAW-03 | PASS | Ortalama (1.6, 2.3, 1.2) mrad/s, std (0.7, 0.6, 0.5) mrad/s |
+| T-RAW-04 | PASS | $\bar m_M$ = (−78, 390, 443) mG, norm 0.595 G; std (0.66, 0.65, 1.19) mG |
+| T-RAW-05 | PASS | std (580, 665, 744) µG, aralık (2015, 2380, 2319) µG |
+| T-RAW-07 | **FAIL** | Ortalama Δt 8995 µs; diğer ölçütler sınırların içinde (tik p99 ≤ 280 µs, en yavaş 1415 µs, 10 SET tiki) |
+| T-RAW-08 | PASS | 62 400 örnek, sayaçların hepsi 0 |
+
+İlk koşudaki T-RAW-01 ve T-RAW-05 başarısızlıkları bu koşuda tekrarlanmadı. T-RAW-07 aynı değerle
+kaldı; nedeni Bulgu 1'deki çip osilatörü sapmasıdır.
+
+**Manyetik ortam kararsız.** Üç ölçümde alan ve köprü ofseti koşudan koşuya büyük değişti:
+init ofsetinin X bileşeni +30.8 mG → −14.3 mG, Y bileşeni 139 mG → 180 mG; ana uygulamayla alınan
+ara okumada alan normu 1.03 G idi, bu koşuda 0.595 G. Kartın duruşu da değiştiği için bunun ne
+kadarının ortamdan geldiği ayrılamıyor, ama köprü ofseti duruştan bağımsız olmalıdır. T-RAW-04 ve
+T-RAW-05'in bu koşuda geçmesi ortamın temiz olduğunu göstermez; manyetometre kalibrasyonundan
+(T-RAW-11) önce ölçüm yeri doğrulanmalı.
+
+Faz 2 hâlâ kapanmadı: T-RAW-07 ortalama Δt eşiği için karar bekleniyor, T-RAW-09…12 koşmadı.
