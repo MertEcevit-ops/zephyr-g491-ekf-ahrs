@@ -136,7 +136,7 @@ Kurallar:
 };
 ```
 
-Örnekleme hızı 104 Hz'dir (Δt ≈ 9.615 ms). Bu, "100 Hz" hedefinin ISM330DHCX ODR tablosundaki karşılığıdır. 208 Hz'e geçiş iki ODR satırını ve `MATH_SPEC.md §14`'teki örnek sayısına bağlı sabitleri değiştirmeyi gerektirir.
+Örnekleme hızı nominal 104 Hz'dir (Δt ≈ 9.615 ms). Bu, "100 Hz" hedefinin ISM330DHCX ODR tablosundaki karşılığıdır. Gerçek hız çipin iç osilatörüne bağlıdır ve karttan karta yüzde birkaç değişir (`MATH_SPEC.md §4`); kod sabit bir hız varsaymaz. 208 Hz'e geçiş iki ODR satırını ve `MATH_SPEC.md §14`'teki örnek sayısına bağlı sabitleri değiştirmeyi gerektirir.
 
 ---
 

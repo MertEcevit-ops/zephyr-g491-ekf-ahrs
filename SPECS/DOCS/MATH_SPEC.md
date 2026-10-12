@@ -222,7 +222,7 @@ $$\Delta t_k = \frac{(\texttt{uint32\_t})(t_k - t_{k-1})}{f_{cyc}},\qquad f_{cyc
 - İşaretsiz çıkarma taşmaya dayanıklıdır (taşma 25.3 s'de bir).
 - 9.615 ms ≈ 1.63·10⁶ döngü, float mantisinde (2²⁴) tam temsil edilir.
 - Geçerli aralık: $10^{-4} < \Delta t \le 0.05$ s. Dışında kalan örnek **tamamen atılır**, `dt_fault` sayacı artar, referans zaman $t_{k-1} \leftarrow t_k$ olur.
-- Nominal $\Delta t = 1/104$ s.
+- Nominal $\Delta t = 1/104$ s. Gerçek değer ISM330DHCX'in iç osilatörüne bağlıdır ve karttan karta yüzde birkaç değişir (bu projedeki kartta 8.995 ms, ≈ 111.2 Hz; `TEST_PLAN.md` T-RAW-07). Filtre her adımda ölçülen $\Delta t$'yi kullandığı için entegrasyon bundan etkilenmez; §14'te örnek sayısıyla tanımlanan süreler aynı oranda kısalır veya uzar ve bu kabul edilir.
 
 **Manyetometre gecikmesi:** MMC sürücüsü boru hattı modunda çalışır. $k$. tikte okunan değer $(k-1)$. tikte başlatılan ölçümdür (≈ 1 tik, 9.6 ms gecikme). 90°/s'de bu ≈ 0.9° anlık heading gecikmesidir ve kabul edilir. Örnek, ait olduğu IMU örneğiyle birlikte işlenir.
 

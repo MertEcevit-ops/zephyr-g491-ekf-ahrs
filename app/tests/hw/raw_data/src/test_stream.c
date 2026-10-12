@@ -5,6 +5,7 @@
 #include <math.h>
 #include <stdint.h>
 
+#include <zephyr/drivers/spi.h>
 #include <zephyr/kernel.h>
 #include <zephyr/sys/printk.h>
 #include <zephyr/ztest.h>
@@ -20,6 +21,16 @@
 #define TICK_P99_MAX_US       300
 #define TICK_HISTOGRAM_BIN_US 10
 #define TICK_HISTOGRAM_BINS   (SET_TICK_MIN_US / TICK_HISTOGRAM_BIN_US)
+
+#define ISM330_SPI_OPERATION                                                                       \
+	(SPI_OP_MODE_MASTER | SPI_MODE_CPOL | SPI_MODE_CPHA | SPI_WORD_SET(8) | SPI_TRANSFER_MSB)
+#define ISM330_READ_INTERNAL_FREQ_FINE (BIT(7) | 0x63)
+/* The 104 Hz setting divides the chip's 6667 Hz base rate by 64. */
+#define ISM330_NOMINAL_PERIOD_US       (64.0e6f / 6667.0f)
+#define ISM330_FREQ_FINE_STEP          0.0015f
+
+static const struct spi_dt_spec ism330_spi =
+	SPI_DT_SPEC_GET(DT_NODELABEL(ism330dhcx), ISM330_SPI_OPERATION);
 
 /* Running mean and variance (Welford); sums of squares would cancel in single precision. */
 struct running_stats {
@@ -208,10 +219,32 @@ static uint32_t tick_percentile_us(uint32_t percent)
 	return SET_TICK_MIN_US;
 }
 
+/*
+ * The sensor clocks itself from an internal oscillator, so its real output
+ * data rate differs from board to board. INTERNAL_FREQ_FINE holds this chip's
+ * deviation from nominal in steps of 0.15 %.
+ */
+static float expected_sample_interval_us(void)
+{
+	uint8_t cmd = ISM330_READ_INTERNAL_FREQ_FINE;
+	uint8_t freq_fine = 0;
+	const struct spi_buf tx_buf = { .buf = &cmd, .len = 1 };
+	const struct spi_buf_set tx = { .buffers = &tx_buf, .count = 1 };
+	const struct spi_buf rx_bufs[] = {
+		{ .buf = NULL, .len = 1 },
+		{ .buf = &freq_fine, .len = 1 },
+	};
+	const struct spi_buf_set rx = { .buffers = rx_bufs, .count = ARRAY_SIZE(rx_bufs) };
+
+	zassert_ok(spi_transceive_dt(&ism330_spi, &tx, &rx));
+
+	return ISM330_NOMINAL_PERIOD_US / (1.0f + ISM330_FREQ_FINE_STEP * (float)(int8_t)freq_fine);
+}
+
 /* T-RAW-07 */
 ZTEST(raw_stream, test_sample_interval_and_tick_time_meet_budget)
 {
-	const float nominal_us = EKF_DT_NOMINAL * 1.0e6f;
+	const float expected_us = expected_sample_interval_us();
 	/* One SET every CONFIG_MMC5983MA_PERIODIC_SET_INTERVAL measurements, plus the edges. */
 	const uint32_t set_ticks_max =
 		WINDOW_SAMPLES / CONFIG_MMC5983MA_PERIODIC_SET_INTERVAL + 2U;
@@ -219,11 +252,12 @@ ZTEST(raw_stream, test_sample_interval_and_tick_time_meet_budget)
 
 	collect_window(WINDOW_SAMPLES);
 	p99_us = tick_percentile_us(99);
-	printk("dt mean %d us, std %d us; tick p99 <= %u us, slowest %u us, SET ticks %u\n",
-	       (int)window.dt_us.mean, (int)stats_std(&window.dt_us), p99_us,
-	       window.slowest_tick_us, window.set_ticks);
+	printk("dt mean %d us (chip trim predicts %d us), std %d ns; tick p99 <= %u us, "
+	       "slowest %u us, SET ticks %u\n",
+	       (int)window.dt_us.mean, (int)expected_us, (int)(stats_std(&window.dt_us) * 1.0e3f),
+	       p99_us, window.slowest_tick_us, window.set_ticks);
 
-	zassert_within(window.dt_us.mean, nominal_us, 0.02f * nominal_us);
+	zassert_within(window.dt_us.mean, expected_us, 0.02f * expected_us);
 	zassert_true(stats_std(&window.dt_us) < 50.0f);
 	assert_no_stream_faults();
 

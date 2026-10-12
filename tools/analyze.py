@@ -15,8 +15,9 @@ from telemetry_records import load_csv
 
 G0 = 9.80665
 CYCLES_PER_S = 170.0e6
-SAMPLE_RATE_HZ = 104.0
-NOMINAL_DT_US = 1.0e6 / SAMPLE_RATE_HZ
+# 104 Hz setting of the ISM330DHCX: 6667 Hz / 64. The real rate follows the
+# chip's own oscillator and differs per board (INTERNAL_FREQ_FINE).
+NOMINAL_DT_US = 64.0e6 / 6667.0
 
 # Sensor frame to body frame, MATH_SPEC.md section 2.6.
 ISM_TO_BODY = np.array([1.0, -1.0, -1.0])
@@ -135,8 +136,10 @@ def analyze_gyro_turn(args):
     capture = load_csv(args.capture, "R")
     axis_column = {"x": "gx_urad_s", "y": "gy_urad_s", "z": "gz_urad_s"}[args.axis]
     rate = capture[axis_column] * 1.0e-6
-    # Telemetry is decimated, so time comes from the sample counter, not from dt_us.
-    seconds = (capture["seq"] - capture["seq"][0]) / SAMPLE_RATE_HZ
+    # Telemetry is decimated: records are seq samples apart, and dt_us is the
+    # measured interval of one sample. No output data rate is assumed.
+    sample_period_s = float(np.mean(capture["dt_us"][capture["dt_us"] > 0])) * 1.0e-6
+    seconds = (capture["seq"] - capture["seq"][0]) * sample_period_s
     # The bias would integrate into the angle; the first second of the capture is at rest.
     rate = rate - np.mean(rate[seconds < 1.0])
     spacing_s = np.diff(seconds)
@@ -144,6 +147,7 @@ def analyze_gyro_turn(args):
     peak = float(angle[np.argmax(np.abs(angle))])
 
     report = Report(f"Gyro turn about body {args.axis}")
+    report.info("measured sample period [us]", f"{sample_period_s * 1e6:.1f}")
     report.check("peak angle [rad]", f"{peak:+.4f}", abs(peak - np.pi / 2) <= 0.05,
                  "+1.571 +- 0.05")
     return report.finish(args.report)
@@ -223,12 +227,12 @@ def analyze_step(args):
     return report.finish(args.report)
 
 
-def timing_from_raw(capture, report):
-    """T-RAW-07 on a type R capture; dt_s is per sample even when records are decimated."""
+def timing_from_raw(capture, report, expected_dt_us):
+    """T-RAW-07 on a type R capture; dt_us is per sample even when records are decimated."""
     dt_us = capture["dt_us"][capture["dt_us"] > 0]
     mean, std = float(np.mean(dt_us)), float(np.std(dt_us))
-    report.check("mean dt [us]", f"{mean:.1f}", abs(mean - NOMINAL_DT_US) <= 0.02 * NOMINAL_DT_US,
-                 f"{NOMINAL_DT_US:.0f} +- 2 %")
+    report.check("mean dt [us]", f"{mean:.1f}", abs(mean - expected_dt_us) <= 0.02 * expected_dt_us,
+                 f"{expected_dt_us:.0f} +- 2 %")
     report.check("std dt [us]", f"{std:.1f}", std < 50.0, "< 50")
 
 
@@ -250,7 +254,7 @@ def analyze_timing(args):
     report = Report(f"Timing, type {args.type} capture")
     capture = load_csv(args.capture, args.type)
     if args.type == "R":
-        timing_from_raw(capture, report)
+        timing_from_raw(capture, report, args.expected_dt_us)
     else:
         timing_from_fusion(capture, report)
     return report.finish(args.report)
@@ -294,6 +298,9 @@ def build_parser():
     timing = add_command("timing", analyze_timing, "T-RAW-07 (type R) or T-DYN-07/12 (type T)")
     timing.add_argument("capture")
     timing.add_argument("--type", choices="RT", default="T")
+    timing.add_argument("--expected-dt-us", type=float, default=NOMINAL_DT_US,
+                        help="sample period this chip should have (type R); the bus_id "
+                             "drivers test prints it from INTERNAL_FREQ_FINE")
 
     return parser
 
