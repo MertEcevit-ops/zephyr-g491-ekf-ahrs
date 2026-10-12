@@ -1,0 +1,45 @@
+*** Booting Zephyr OS build v4.4.0-11132-g8076e9d493af ***
+Running TESTSUITE bus_id_raw
+===================================================================
+START - test_01_both_spi_devices_are_ready
+ PASS - test_01_both_spi_devices_are_ready in 0.001 seconds
+===================================================================
+START - test_02_ism330dhcx_who_am_i_is_stable
+ PASS - test_02_ism330dhcx_who_am_i_is_stable in 0.022 seconds
+===================================================================
+START - test_03_mmc5983ma_product_id_is_stable
+ PASS - test_03_mmc5983ma_product_id_is_stable in 0.022 seconds
+===================================================================
+START - test_04_mmc5983ma_software_reset_reloads_otp
+ PASS - test_04_mmc5983ma_software_reset_reloads_otp in 0.011 seconds
+===================================================================
+START - test_05_mmc5983ma_single_measurement_is_plausible
+field counts: 11736 -740 3580
+ PASS - test_05_mmc5983ma_single_measurement_is_plausible in 0.011 seconds
+===================================================================
+START - test_09_mmc5983ma_answers_in_spi_mode_3
+PRODUCT_ID matches: mode 3 100/100, mode 0 100/100
+ PASS - test_09_mmc5983ma_answers_in_spi_mode_3 in 0.011 seconds
+===================================================================
+START - test_99_interleaved_traffic_soak
+soak: 100000 cycles in 14854 ms, 33660 transactions/s
+ PASS - test_99_interleaved_traffic_soak in 14.859 seconds
+===================================================================
+TESTSUITE bus_id_raw succeeded
+
+------ TESTSUITE SUMMARY START ------
+
+SUITE PASS - 100.00% [bus_id_raw]: pass = 7, fail = 0, skip = 0, total = 7 duration = 14.937 seconds
+ - PASS - [bus_id_raw.test_01_both_spi_devices_are_ready] duration = 0.001 seconds
+ - PASS - [bus_id_raw.test_02_ism330dhcx_who_am_i_is_stable] duration = 0.022 seconds
+ - PASS - [bus_id_raw.test_03_mmc5983ma_product_id_is_stable] duration = 0.022 seconds
+ - PASS - [bus_id_raw.test_04_mmc5983ma_software_reset_reloads_otp] duration = 0.011 seconds
+ - PASS - [bus_id_raw.test_05_mmc5983ma_single_measurement_is_plausible] duration = 0.011 seconds
+ - PASS - [bus_id_raw.test_09_mmc5983ma_answers_in_spi_mode_3] duration = 0.011 seconds
+ - PASS - [bus_id_raw.test_99_interleaved_traffic_soak] duration = 14.859 seconds
+
+------ TESTSUITE SUMMARY END ------
+
+===================================================================
+RunID: 2344b42241c5658c6fbc255dc16f19d0
+PROJECT EXECUTION SUCCESSFUL

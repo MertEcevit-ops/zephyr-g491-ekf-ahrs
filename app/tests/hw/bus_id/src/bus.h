@@ -17,6 +17,8 @@
 
 #define ISM330_REG_WHO_AM_I 0x0F
 #define ISM330_REG_CTRL4_C  0x13
+/* Signed deviation of the real output data rate from nominal, 0.15 % per step. */
+#define ISM330_REG_INTERNAL_FREQ_FINE 0x63
 #define ISM330_WHO_AM_I     0x6B
 
 static inline int bus_read(const struct spi_dt_spec *bus, uint8_t reg, uint8_t *dst, size_t len)

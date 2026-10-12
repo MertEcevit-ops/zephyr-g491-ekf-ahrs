@@ -1,0 +1,29 @@
+I: chip id 0x6b
+*** Booting Zephyr OS build v4.4.0-11132-g8076e9d493af ***
+Running TESTSUITE raw_bridge_offset
+===================================================================
+START - test_00_driver_initialised_with_a_measured_offset
+bridge offset after init [uG]: 31433 147644 53649
+ PASS - test_00_driver_initialised_with_a_measured_offset in 0.005 seconds
+===================================================================
+START - test_05_refreshed_offset_is_repeatable
+axis 0 (settle 100 us): mean 31832 uG, std 415 uG, spread 1709 uG
+axis 1 (settle 100 us): mean 144423 uG, std 1617 uG, spread 6226 uG
+
+    Assertion failed at CMAKE_SOURCE_DIR/src/test_bridge_offset.c:85: raw_bridge_offset_test_05_refreshed_offset_is_repeatable: (std_ug < STD_MAX_UG is false)
+axis 1 std 1617 uG
+ FAIL - test_05_refreshed_offset_is_repeatable in 20.177 seconds
+===================================================================
+TESTSUITE raw_bridge_offset failed.
+
+------ TESTSUITE SUMMARY START ------
+
+SUITE FAIL -  50.00% [raw_bridge_offset]: pass = 1, fail = 1, skip = 0, total = 2 duration = 20.182 seconds
+ - PASS - [raw_bridge_offset.test_00_driver_initialised_with_a_measured_offset] duration = 0.005 seconds
+ - FAIL - [raw_bridge_offset.test_05_refreshed_offset_is_repeatable] duration = 20.177 seconds
+
+------ TESTSUITE SUMMARY END ------
+
+===================================================================
+RunID: 28c3e446af480493f2f24ee5504e644f
+PROJECT EXECUTION FAILED

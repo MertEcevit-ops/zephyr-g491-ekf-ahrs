@@ -1,0 +1,20 @@
+I: chip id 0x6b
+*** Booting Zephyr OS build v4.4.0-11132-g8076e9d493af ***
+Running TESTSUITE raw_conversion_time
+===================================================================
+START - test_conversion_finishes_within_budget_and_int_clears
+conversion time (BW=1): 3864..3865 us
+ PASS - test_conversion_finishes_within_budget_and_int_clears in 0.822 seconds
+===================================================================
+TESTSUITE raw_conversion_time succeeded
+
+------ TESTSUITE SUMMARY START ------
+
+SUITE PASS - 100.00% [raw_conversion_time]: pass = 1, fail = 0, skip = 0, total = 1 duration = 0.822 seconds
+ - PASS - [raw_conversion_time.test_conversion_finishes_within_budget_and_int_clears] duration = 0.822 seconds
+
+------ TESTSUITE SUMMARY END ------
+
+===================================================================
+RunID: be1318f1e3c5632cd4079118ce384c91
+PROJECT EXECUTION SUCCESSFUL
